@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_header_title">未登录</string>
+    <string name="nav_header_subtitle">anonymous@acm.nankai.edu.cn</string>
+    <string name="nav_home">主页</string>
+    <string name="nav_problem">题目</string>
+    <string name="nav_contest">竞赛</string>
+    <string name="nav_discuss">讨论</string>
+    <string name="nav_miscellaneous">杂项</string>
+    <string name="nav_open_source">开放源代码许可</string>
+    <string name="nav_about">关于</string>
+    
+    <string name="action_settings">设置</string>
+
+    <string name="click_again_to_finish">再按一下退出</string>
+
+    <string name="desc_avatar">用户头像</string>
+    <string name="desc_nav_header">Navigation header</string>
+</resources>
