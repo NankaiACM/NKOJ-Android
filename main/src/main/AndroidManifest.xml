@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.edu.nankai.onlinejudge.main">
 
-    <application>
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -16,7 +20,7 @@
                 <data
                     android:host="acm.nankai.edu.cn"
                     android:pathPattern="/.*"
-                    android:scheme="https" />
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +28,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="acm.nankai.edu.cn"
+                    android:pathPrefix="/verify/"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserInfoActivity"
+            android:label="@string/title_activity_user_info"></activity>
     </application>
 
 </manifest>

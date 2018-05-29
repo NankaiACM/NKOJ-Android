@@ -12,11 +12,105 @@
     <string name="nav_miscellaneous">杂项</string>
     <string name="nav_open_source">开放源代码许可</string>
     <string name="nav_about">关于</string>
-    
+
     <string name="action_settings">设置</string>
 
     <string name="click_again_to_finish">再按一下退出</string>
 
     <string name="desc_avatar">用户头像</string>
+    <string name="desc_captcha">验证码图片</string>
     <string name="desc_nav_header">Navigation header</string>
+
+    <string name="prompt_name">昵称 / Email</string>
+    <string name="prompt_nickname">昵称</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_captcha">验证码</string>
+    <string name="prompt_ecode">邮箱验证码</string>
+    <string name="prompt_login_switch">已有账号？点击这里登录</string>
+    <string name="prompt_register_switch">点击这里进行注册…</string>
+
+    <string name="action_sign_in">注册</string>
+    <string name="action_log_in">登录</string>
+
+
+    <string name="error_invalid_nickname">昵称长度应在 3 – 20 之间</string>
+    <string name="error_invalid_email">电子邮件不合法●﹏●</string>
+    <string name="error_invalid_password">密码应在 6 – 16 字符之间</string>
+    <string name="error_invalid_captcha">验证码的长度应当为 6 字符</string>
+    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_field_required">必填</string>
+    <string name="action_send_ecode">发送邮箱验证码</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
 </resources>
