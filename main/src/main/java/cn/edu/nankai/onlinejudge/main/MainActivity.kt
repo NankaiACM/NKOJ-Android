@@ -1,8 +1,11 @@
 package cn.edu.nankai.onlinejudge.main
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
@@ -11,16 +14,83 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_USER_AVATAR
+import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_USER_INFO
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, Callback {
+
+    override fun onFailure(call: Call?, e: IOException?) {
+        val tag = call?.request()?.tag() as String
+        Toast.makeText(this, "网络连接失败 ${e?.message}($tag)", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onResponse(call: Call?, response: Response?) {
+        val tag = call?.request()?.tag() as String
+        val isJson = response?.header("Content-Type")?.contains("json", true) == true
+        val jsonResponse = if (isJson) JSONObject(response?.body()?.string()) else JSONObject()
+        val jsonCode = if (isJson) jsonResponse.optInt("code") else -1
+        val jsonSuccess = if (isJson) jsonCode == 0 else false
+        val jsonBodyArray = if (jsonSuccess) jsonResponse.optJSONArray("data") else null
+        val jsonBodyObject = if (jsonSuccess) jsonResponse.optJSONObject("data") else null
+        val jsonError = if (isJson) jsonResponse.optJSONArray("error") else null
+        val jsonMessage = if (isJson) jsonResponse.optString("message") else null
+
+        when (tag) {
+            HTTPREQ_USER_INFO -> {
+                when {
+                    jsonSuccess -> {
+                        Static.user_nickname = jsonBodyObject?.getString("nickname")
+                        Static.user_email = jsonBodyObject?.getString("email")
+                        Static.user_id = jsonBodyObject?.getInt("user_id")
+
+                        runOnUiThread {
+                            Toast.makeText(this, "登录成功~", Toast.LENGTH_LONG).show()
+                            nav_header.findViewById<TextView>(R.id.nav_email).text = Static.user_email
+                            nav_header.findViewById<TextView>(R.id.nav_nickname).text = Static.user_nickname
+                            isLoggedIn = true
+                        }
+
+                        Network.getInstance(applicationContext).newCall(
+                                Request.Builder().url(Static.getUrl(URL_USER_AVATAR, arrayOf(Static.user_id.toString()))).tag(HTTPREQ_USER_AVATAR).build()
+                        ).enqueue(this)
+                    }
+                    jsonCode == 401 -> {
+                        runOnUiThread {
+                            Toast.makeText(this, "登录信息失效，请重试 ${jsonMessage}($jsonCode)", Toast.LENGTH_LONG).show()
+                        }
+                        getSharedPreferences("user", Context.MODE_PRIVATE).edit().clear().apply()
+                        isLoggedIn = false
+                    }
+                    else -> runOnUiThread {
+                        Toast.makeText(this, "未知的服务器返回: ${jsonMessage}($jsonCode)", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            HTTPREQ_USER_AVATAR -> {
+                val bytes = response?.body()?.bytes()
+                runOnUiThread {
+                    nav_header.findViewById<ImageView>(R.id.nav_avatar).setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes!!.size))
+                }
+            }
+        }
+    }
+
     override fun onClick(v: View?) {
         if (v?.id == R.id.nav_header) {
             when (isLoggedIn) {
-                true -> startActivity(Intent(this, UserInfoActivity::class.java))
+                true -> startActivityForResult(Intent(this, UserInfoActivity::class.java), REQUEST_INFO)
                 else -> startActivityForResult(Intent(this, LoginActivity::class.java), REQUEST_LOGIN)
             }
         }
@@ -31,6 +101,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -49,6 +120,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.getHeaderView(0).setOnClickListener(this)
 
+        if (Static.API_KEY != null) {
+            Network.getInstance(applicationContext).newCall(
+                    Request.Builder().url(Static.getAPIUrl(URL_USER_INFO)).tag(HTTPREQ_USER_INFO).build()).enqueue(this)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 
     override fun onBackPressed() {
@@ -70,43 +149,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             REQUEST_LOGIN -> {
                 when (resultCode) {
                     RESULT_LOGIN_SUCCESS -> {
-                        Toast.makeText(this@MainActivity, "登录成功", Toast.LENGTH_SHORT).show()
+                        if (data == null || data.extras == null) {
+                            Toast.makeText(this@MainActivity, "未收到所需信息，请重试", Toast.LENGTH_LONG).show()
+                            return
+                        }
+                        Static.API_KEY = data.extras.getString("key")
+                        Static.API_SECRET = data.extras.getString("secret")
+                        getSharedPreferences("user", Context.MODE_PRIVATE).edit()
+                                .putString("key", Static.API_KEY).putString("secret", Static.API_SECRET).apply()
 
-
-                    }
-                    RESULT_REGISTER_SUCCESS -> {
-                        Toast.makeText(this@MainActivity, "注册成功", Toast.LENGTH_SHORT).show()
-                        val nickname = data?.extras?.getString("nickname")
-                        val email = data?.extras?.getString("email")
-
-                        val header = nav_view.getHeaderView(0)
-
-                        header.findViewById<TextView>(R.id.nav_nickname).text = nickname
-                        header.findViewById<TextView>(R.id.nav_email).text = email
+                        Network.getInstance(applicationContext).newCall(
+                                Request.Builder().url(Static.getUrl(URL_USER_INFO)).tag(HTTPREQ_USER_INFO).build()
+                        ).enqueue(this)
                     }
                     else -> Toast.makeText(this@MainActivity, "未知问题或用户取消($resultCode)", Toast.LENGTH_LONG).show()
                 }
+            }
+            REQUEST_INFO -> {
+                Toast.makeText(this@MainActivity, "Hello Info($resultCode)", Toast.LENGTH_LONG).show()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun switchLoginState(isLogin: Boolean = true) {
-        isLoggedIn = isLogin
-        val header = nav_view.getHeaderView(0)
-        if (isLoggedIn) header.setOnClickListener { } else header.setOnClickListener { }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> return true
         }
@@ -141,8 +212,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     companion object {
-        val REQUEST_LOGIN = 0x20
-        val RESULT_REGISTER_SUCCESS = 0x22
-        val RESULT_LOGIN_SUCCESS = 0x23
+        const val REQUEST_LOGIN = 0x20
+        const val REQUEST_INFO = 0x18
+
+        const val RESULT_LOGIN_SUCCESS = 0x23
+
+        const val HTTPREQ_USER_INFO = "UserInfo"
+        const val HTTPREQ_USER_AVATAR = "UserAvatar"
     }
 }

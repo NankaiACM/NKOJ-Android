@@ -16,6 +16,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/avatar_neutral"
+        android:id="@+id/nav_avatar"
         android:contentDescription="@string/desc_avatar" />
 
     <TextView

@@ -17,7 +17,7 @@ import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_CAPTCHA
 import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_LOGIN
 import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_REGISTER
 import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_VERIFY_EMAIL
-import cn.edu.nankai.onlinejudge.main.Static.Companion.getURL
+import cn.edu.nankai.onlinejudge.main.Static.Companion.getUrl
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
 import kotlinx.android.synthetic.main.activity_login.*
@@ -39,14 +39,13 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
     override fun onFailure(call: Call?, e: IOException?) {
         val tag = call?.request()?.tag() as String
         runOnUiThread {
-            Toast.makeText(this, "在 $tag 请求时发生网络错误, 原因: ${e?.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "在 $tag 请求时发生网络错误, 原因: ${e?.message}($tag)", Toast.LENGTH_LONG).show()
         }
     }
 
     override fun onResponse(call: Call?, response: Response?) {
 
         val tag = call?.request()?.tag() as String
-
         val isJson = response?.header("Content-Type")?.contains("json", true) == true
         val jsonResponse = if (isJson) JSONObject(response?.body()?.string()) else JSONObject()
         val jsonCode = if (isJson) jsonResponse.optInt("code") else -1
@@ -74,16 +73,11 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
                         HTTPREQ_GET_ECODE -> Toast.makeText(this, "验证码发送成功，请检查邮箱", Toast.LENGTH_LONG).show()
                         HTTPREQ_REGISTER -> {
                             Toast.makeText(this, "注册成功了喵~", Toast.LENGTH_LONG).show()
-                            val intent = Intent()
-                            intent.putExtra("nickname", mNickname)
-                            intent.putExtra("email", mEmail)
-                            setResult(MainActivity.RESULT_REGISTER_SUCCESS, intent)
-                            finish()
+                            startActivityForResult(Intent(this, FirstLoginInitActivity::class.java), REQUEST_INIT)
                         }
                         HTTPREQ_LOGIN -> {
                             Toast.makeText(this, "登录成功了喵~", Toast.LENGTH_LONG).show()
-                            setResult(MainActivity.RESULT_LOGIN_SUCCESS)
-                            finish()
+                            startActivityForResult(Intent(this, FirstLoginInitActivity::class.java), REQUEST_INIT)
                         }
                     }
                 }
@@ -95,6 +89,15 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
                 else -> Toast.makeText(this, "未知错误... $jsonMessage($jsonCode)", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_INIT) {
+            if (resultCode == 0x22) {
+                setResult(MainActivity.RESULT_LOGIN_SUCCESS, data)
+                finish()
+            }
+        } else super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun formErrorFromJson(json: JSONArray) {
@@ -151,7 +154,7 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
 
     private fun loadCaptcha() {
         Network.getInstance(applicationContext).newCall(
-                Request.Builder().url(Static.getURL(URL_CAPTCHA)).tag(HTTPREQ_CAPTCHA).build()
+                Request.Builder().url(Static.getUrl(URL_CAPTCHA)).tag(HTTPREQ_CAPTCHA).build()
         ).enqueue(this)
     }
 
@@ -190,7 +193,7 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
         if (cancel) {
             focusView?.requestFocus()
         } else {
-            Network.getInstance(applicationContext).newCall(Request.Builder().url(getURL(URL_LOGIN)).post(
+            Network.getInstance(applicationContext).newCall(Request.Builder().url(getUrl(URL_LOGIN)).post(
                     FormBody.Builder()
                             .add("captcha", captchaStr)
                             .add("user", userStr)
@@ -234,7 +237,7 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
         } else {
             Network.getInstance(applicationContext).newCall(
                     Request.Builder()
-                            .url(getURL(URL_VERIFY_EMAIL, arrayOf("$emailStr?captcha=$captchaStr")))
+                            .url(getUrl(URL_VERIFY_EMAIL, arrayOf("$emailStr?captcha=$captchaStr")))
                             .get().tag(HTTPREQ_GET_ECODE).build()
             ).enqueue(this)
         }
@@ -302,7 +305,7 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
         } else {
             mEmail = emailStr
             mNickname = nicknameStr
-            Network.getInstance(applicationContext).newCall(Request.Builder().url(getURL(URL_REGISTER)).post(
+            Network.getInstance(applicationContext).newCall(Request.Builder().url(getUrl(URL_REGISTER)).post(
                     FormBody.Builder()
                             .add("nickname", nicknameStr)
                             .add("email", emailStr)
@@ -341,5 +344,7 @@ class LoginActivity : AppCompatActivity(), okhttp3.Callback {
         const val HTTPREQ_VERIFY_EMAIL = "验证邮箱"
         const val HTTPREQ_VERIFY_NICKNAME = "验证昵称"
         const val HTTPREQ_GET_ECODE = "获得邮箱验证码"
+
+        const val REQUEST_INIT = 0x20
     }
 }

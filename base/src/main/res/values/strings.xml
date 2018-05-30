@@ -2,4 +2,8 @@
     <string name="app_name">Online Judge</string>
     <string name="title_activity_login">登录 / 注册</string>
     <string name="title_activity_user_info">用户信息设置</string>
+    <string name="title_activity_first_login_init">首次登录初始化…</string>
+
+    <string name="continue_btn">Let\'s Go</string>
+    <string name="text_initializing">正在初始化\n请稍后</string>
 </resources>
