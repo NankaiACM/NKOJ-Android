@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onFailure(call: Call?, e: IOException?) {
         val tag = call?.request()?.tag() as String
-        Toast.makeText(this, "网络连接失败 ${e?.message}($tag)", Toast.LENGTH_LONG).show()
+        runOnUiThread {
+            Toast.makeText(this, "网络连接失败 ${e?.message}($tag)", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onResponse(call: Call?, response: Response?) {
