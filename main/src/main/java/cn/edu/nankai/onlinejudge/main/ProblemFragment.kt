@@ -108,18 +108,21 @@ class ProblemFragment : Fragment(), Callback {
         val visibleThreshold = 15
 
         init {
-            val linearLayoutManager = problem_rec.layoutManager as LinearLayoutManager
-            problem_rec.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    totalItemCount = linearLayoutManager.getItemCount()
-                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
-                    if (!isLoading && shouldLoadMore && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                        loadMore()
-                        isLoading = true
+            if (problem_rec == null) {
+            } else {
+                val linearLayoutManager = problem_rec.layoutManager as LinearLayoutManager
+                problem_rec?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        totalItemCount = linearLayoutManager.getItemCount()
+                        lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
+                        if (!isLoading && shouldLoadMore && totalItemCount <= lastVisibleItem + visibleThreshold) {
+                            loadMore()
+                            isLoading = true
+                        }
                     }
-                }
-            })
+                })
+            }
         }
 
         inner class ProblemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
