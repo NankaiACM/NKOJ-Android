@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/problem_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="题目名称"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/time_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="题目时限"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/problem_name" />
+
+    <TextView
+        android:id="@+id/memory_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="题目内存"
+        app:layout_constraintBottom_toBottomOf="@+id/time_limit"
+        app:layout_constraintStart_toEndOf="@+id/time_limit" />
+
+    <TextView
+        android:id="@+id/extra_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="额外信息"
+        app:layout_constraintBottom_toBottomOf="@+id/memory_limit"
+        app:layout_constraintStart_toEndOf="@+id/memory_limit" />
+
+    <TextView
+        android:id="@+id/problem_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="题目编号"
+        app:layout_constraintBottom_toBottomOf="@+id/problem_name"
+        app:layout_constraintStart_toEndOf="@+id/problem_name" />
+</android.support.constraint.ConstraintLayout>
