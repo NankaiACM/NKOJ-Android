@@ -17,7 +17,7 @@ class Static {
         const val URL_USER_INFO = "/api/user/"
         const val URL_USER_AVATAR = "/api/avatar"
         const val URL_LIST_PROBLEM = "/api/problems/list"
-        const val URL_PROBLEM_DETAIL = "/api/problem/"
+        const val URL_PROBLEM_DETAIL = "/api/problem"
 
         fun getUrl(target: String, array: Array<String>? = null): String {
             return "$BASE_METHOD//$BASE_HOST$target${if (array == null) "" else "/${TextUtils.join("/", array)}"}"

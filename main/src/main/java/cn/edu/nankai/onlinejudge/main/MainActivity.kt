@@ -1,5 +1,6 @@
 package cn.edu.nankai.onlinejudge.main
 
+import android.app.FragmentManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 bundle.putString("problem", jsonBodyObject?.toString())
                 pdf.arguments = bundle
                 runOnUiThread {
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, pdf).addToBackStack(null).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, pdf).addToBackStack(null).commit()
                 }
             }
         }
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Network.getInstance(applicationContext).newCall(
                     Request.Builder().url(Static.getAPIUrl(URL_USER_INFO)).tag(HTTPREQ_USER_INFO).build()).enqueue(this)
         }
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -147,8 +148,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (fragmentManager.backStackEntryCount > 0) {
-            fragmentManager.popBackStack()
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
         } else if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
@@ -206,9 +207,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // TODO: popbackstack will cause CRASH on some of the Fragments...
         // So may be we have to find better ways to manage them
-
-
-        val fm = fragmentManager.beginTransaction()
+        val al = supportFragmentManager.fragments
+        supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        var fm = supportFragmentManager.beginTransaction()
         when (item.itemId) {
             R.id.nav_home -> {
                 fm.replace(R.id.fragment_container, HomeFragment())
@@ -229,7 +230,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fm.replace(R.id.fragment_container, AboutFragment())
             }
         }
-        fm.commit()
+        fm.commitNowAllowingStateLoss()
+        fm = supportFragmentManager.beginTransaction()
+        for (frag in al)
+            fm.remove(frag)
+        fm.commitAllowingStateLoss()
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }

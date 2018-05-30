@@ -1,9 +1,9 @@
 package cn.edu.nankai.onlinejudge.main
 
 import android.annotation.SuppressLint
-import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -55,7 +55,7 @@ class ProblemFragment : Fragment(), Callback {
                     mActivity.runOnUiThread {
                         mDataset = jsonBodyArray!!
                         mAdapter = ProblemAdapter()
-                        view.findViewById<RecyclerView>(R.id.problem_rec).adapter = mAdapter
+                        view?.findViewById<RecyclerView>(R.id.problem_rec)?.adapter = mAdapter
                         shouldLoadMore = jsonBodyObject?.optBoolean("is_end") != true
                     }
                 }
