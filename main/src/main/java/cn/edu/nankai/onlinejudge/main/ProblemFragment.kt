@@ -1,7 +1,6 @@
 package cn.edu.nankai.onlinejudge.main
 
-
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.app.Fragment
 import android.os.Bundle
 import android.os.Handler
@@ -14,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import cn.edu.nankai.onlinejudge.main.MainActivity.Companion.HTTPREQ_PROBLEM_DETAIL
 import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_LIST_PROBLEM
+import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_PROBLEM_DETAIL
 import cn.edu.nankai.onlinejudge.main.Static.Companion.getUrl
 import kotlinx.android.synthetic.main.fragment_problem.*
 import okhttp3.*
@@ -23,6 +24,14 @@ import org.json.JSONObject
 import java.io.IOException
 
 class ProblemFragment : Fragment(), Callback {
+
+    private lateinit var mActivity: MainActivity
+    private lateinit var mNetwork: OkHttpClient
+    private lateinit var mAdapter: ProblemAdapter
+    private lateinit var mDataset: JSONArray
+    private var shouldLoadMore: Boolean = true
+
+
     override fun onFailure(call: Call?, e: IOException?) {
         val tag = call?.request()?.tag()
         mActivity.runOnUiThread {
@@ -73,16 +82,10 @@ class ProblemFragment : Fragment(), Callback {
             }
     }
 
-    private lateinit var mActivity: Activity
-    private lateinit var mNetwork: OkHttpClient
-    private lateinit var mAdapter: ProblemAdapter
-    private lateinit var mDataset: JSONArray
-    private var shouldLoadMore: Boolean = true
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_problem, container, false)
-        mActivity = activity
+        mActivity = activity as MainActivity
         val mDividerItemDecoration = DividerItemDecoration(mActivity, View.LAYOUT_DIRECTION_LTR)
         v.findViewById<RecyclerView>(R.id.problem_rec).apply {
             setHasFixedSize(true)
@@ -95,10 +98,10 @@ class ProblemFragment : Fragment(), Callback {
         return v
     }
 
-    inner class ProblemAdapter() :
+    inner class ProblemAdapter :
             RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        val mOnClickListener = ItemListener()
+        private val mOnClickListener = ItemListener()
         var totalItemCount: Int = 0
         var lastVisibleItem: Int = 0
         var isLoading: Boolean = false
@@ -145,6 +148,7 @@ class ProblemFragment : Fragment(), Callback {
             }
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val which = mDataset.getJSONObject(position)
             if (holder is ProblemViewHolder) {
@@ -153,6 +157,7 @@ class ProblemFragment : Fragment(), Callback {
                 holder.memoryLimit.text = which.optInt("memory_limit").toString() + "千字节"
                 holder.timeLimit.text = which.optInt("time_limit").toString() + "秒"
                 holder.extraInfo.text = "${which.optInt("ac")}/${which.optInt("all")}"
+                holder.view.tag = which.optInt("problem_id").toString()
                 holder.view.setOnClickListener(mOnClickListener)
             } else if (holder is LoadingViewHolder) {
                 holder.loader.isIndeterminate = true;
@@ -163,12 +168,14 @@ class ProblemFragment : Fragment(), Callback {
 
         inner class ItemListener : View.OnClickListener {
             override fun onClick(v: View?) {
-
+                val pid = v?.tag as String
+                mNetwork.newCall(
+                        Request.Builder().url(getUrl(URL_PROBLEM_DETAIL, arrayOf(pid))).tag(HTTPREQ_PROBLEM_DETAIL).build()
+                ).enqueue(mActivity)
             }
         }
 
         fun loadMore() {
-
             Handler().post {
                 mDataset.put(null)
                 mAdapter.notifyItemInserted(mDataset.length() - 1)
@@ -176,7 +183,6 @@ class ProblemFragment : Fragment(), Callback {
                         Request.Builder().url(getUrl(URL_LIST_PROBLEM, arrayOf(mDataset.length().toString()))).tag(HTTPREQ_LOAD_MORE).build()
                 ).enqueue(this@ProblemFragment)
             }
-
         }
     }
 

@@ -43,4 +43,7 @@
     <string name="action_send_ecode">发送邮箱验证码</string>
 
     <string name="text_fragment_holder">这是一个 Fragment </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

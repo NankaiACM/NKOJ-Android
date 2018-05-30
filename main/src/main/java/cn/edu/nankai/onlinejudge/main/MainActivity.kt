@@ -86,6 +86,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     nav_header.findViewById<ImageView>(R.id.nav_avatar).setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes!!.size))
                 }
             }
+            HTTPREQ_PROBLEM_DETAIL -> {
+                val pdf = ProblemDetailFragment()
+                val bundle = Bundle()
+                bundle.putString("problem", jsonBodyObject?.toString())
+                pdf.arguments = bundle
+                runOnUiThread {
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, pdf).addToBackStack(null).commit()
+                }
+            }
         }
     }
 
@@ -138,14 +147,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+        } else if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            if(shouldFinishActivity)
+            if (shouldFinishActivity)
                 super.onBackPressed()
             else {
                 shouldFinishActivity = true
-                Toast.makeText(this,R.string.click_again_to_finish, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.click_again_to_finish, Toast.LENGTH_SHORT).show()
                 Handler().postDelayed({ shouldFinishActivity = false }, 2000)
             }
         }
@@ -192,28 +203,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val fragmentManager = fragmentManager.beginTransaction()
+
+        // TODO: popbackstack will cause CRASH on some of the Fragments...
+        // So may be we have to find better ways to manage them
+
+
+        val fm = fragmentManager.beginTransaction()
         when (item.itemId) {
             R.id.nav_home -> {
-                fragmentManager.replace(R.id.fragment_container, HomeFragment())
+                fm.replace(R.id.fragment_container, HomeFragment())
             }
             R.id.nav_problem -> {
-                fragmentManager.replace(R.id.fragment_container, ProblemFragment())
+                fm.replace(R.id.fragment_container, ProblemFragment())
             }
             R.id.nav_contest -> {
-                fragmentManager.replace(R.id.fragment_container, ContestFragment())
+                fm.replace(R.id.fragment_container, ContestFragment())
             }
             R.id.nav_discuss -> {
-                fragmentManager.replace(R.id.fragment_container, DiscussFragment())
+                fm.replace(R.id.fragment_container, DiscussFragment())
             }
             R.id.nav_open_source -> {
-                fragmentManager.replace(R.id.fragment_container, OpenSourceFragment())
+                fm.replace(R.id.fragment_container, OpenSourceFragment())
             }
             R.id.nav_about -> {
-                fragmentManager.replace(R.id.fragment_container, AboutFragment())
+                fm.replace(R.id.fragment_container, AboutFragment())
             }
         }
-        fragmentManager.commit()
+        fm.commit()
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -226,5 +242,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         const val HTTPREQ_USER_INFO = "UserInfo"
         const val HTTPREQ_USER_AVATAR = "UserAvatar"
+
+        const val HTTPREQ_PROBLEM_DETAIL = "ProblemDetail"
     }
 }
