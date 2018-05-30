@@ -124,6 +124,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Network.getInstance(applicationContext).newCall(
                     Request.Builder().url(Static.getAPIUrl(URL_USER_INFO)).tag(HTTPREQ_USER_INFO).build()).enqueue(this)
         }
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onPostCreate(savedInstanceState, persistentState)
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
@@ -185,28 +190,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+        val fragmentManager = fragmentManager.beginTransaction()
         when (item.itemId) {
             R.id.nav_home -> {
-
+                fragmentManager.replace(R.id.fragment_container, HomeFragment())
             }
             R.id.nav_problem -> {
-
+                fragmentManager.replace(R.id.fragment_container, ProblemFragment())
             }
             R.id.nav_contest -> {
-
+                fragmentManager.replace(R.id.fragment_container, ContestFragment())
             }
             R.id.nav_discuss -> {
-
+                fragmentManager.replace(R.id.fragment_container, DiscussFragment())
             }
             R.id.nav_open_source -> {
-
+                fragmentManager.replace(R.id.fragment_container, OpenSourceFragment())
             }
             R.id.nav_about -> {
-
+                fragmentManager.replace(R.id.fragment_container, AboutFragment())
             }
         }
-
+        fragmentManager.commit()
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
