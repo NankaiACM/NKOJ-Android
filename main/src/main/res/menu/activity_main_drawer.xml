@@ -20,19 +20,20 @@
             android:id="@+id/nav_discuss"
             android:icon="@drawable/nav_discuss"
             android:title="@string/nav_discuss" />
+
+        <item
+            android:checkable="false"
+            android:enabled="false"
+
+            android:title="@string/nav_miscellaneous" />
+
+        <item
+            android:id="@+id/nav_open_source"
+            android:icon="@drawable/nav_open_source"
+            android:title="@string/nav_open_source" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/nav_about"
+            android:title="@string/nav_about" />
     </group>
-
-    <item android:title="@string/nav_miscellaneous">
-        <menu>
-            <item
-                android:id="@+id/nav_open_source"
-                android:icon="@drawable/nav_open_source"
-                android:title="@string/nav_open_source" />
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/nav_about"
-                android:title="@string/nav_about" />
-        </menu>
-    </item>
-
 </menu>

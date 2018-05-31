@@ -109,6 +109,7 @@ class ProblemFragment : Fragment(), Callback {
 
         init {
             if (problem_rec == null) {
+                throw Error()
             } else {
                 val linearLayoutManager = problem_rec.layoutManager as LinearLayoutManager
                 problem_rec?.addOnScrollListener(object : RecyclerView.OnScrollListener() {

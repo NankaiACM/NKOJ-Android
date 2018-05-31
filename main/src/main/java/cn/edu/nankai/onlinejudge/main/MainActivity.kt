@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Network.getInstance(applicationContext).newCall(
                     Request.Builder().url(Static.getAPIUrl(URL_USER_INFO)).tag(HTTPREQ_USER_INFO).build()).enqueue(this)
         }
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, BlankFragment()).addToBackStack(null).commit()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
+        if (supportFragmentManager.backStackEntryCount > 1) {
             supportFragmentManager.popBackStack()
         } else if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -204,12 +204,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
-        // TODO: popbackstack will cause CRASH on some of the Fragments...
-        // So may be we have to find better ways to manage them
-        val al = supportFragmentManager.fragments
         supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        var fm = supportFragmentManager.beginTransaction()
+        val fm = supportFragmentManager.beginTransaction()
         when (item.itemId) {
             R.id.nav_home -> {
                 fm.replace(R.id.fragment_container, HomeFragment())
@@ -230,11 +226,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fm.replace(R.id.fragment_container, AboutFragment())
             }
         }
-        fm.commitNowAllowingStateLoss()
-        fm = supportFragmentManager.beginTransaction()
-        for (frag in al)
-            fm.remove(frag)
-        fm.commitAllowingStateLoss()
+        fm.addToBackStack(null).commitAllowingStateLoss()
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
