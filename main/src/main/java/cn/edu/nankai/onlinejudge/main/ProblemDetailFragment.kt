@@ -40,7 +40,6 @@ class ProblemDetailFragment : Fragment() {
         val hint = content.optString("hint")
 
         v.findViewById<TextView>(R.id.pid).text = pid.toString()
-
         v.findViewById<TextView>(R.id.desc).text = description
         v.findViewById<TextView>(R.id.desc_input).text = input
         v.findViewById<TextView>(R.id.desc_output).text = output

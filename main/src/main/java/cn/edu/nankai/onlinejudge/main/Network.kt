@@ -11,7 +11,8 @@ class Network(nothing: Nothing) {
     companion object {
         private lateinit var mLogger: HttpLoggingInterceptor
         private var mInstance: OkHttpClient? = null
-        fun getInstance(context: Context): OkHttpClient {
+        fun getInstance(context: Context?): OkHttpClient {
+            if (context == null && mInstance == null) throw Error("init with null context...")
             if (mInstance == null) {
                 val cookieManager = CookieManager()
                 cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)

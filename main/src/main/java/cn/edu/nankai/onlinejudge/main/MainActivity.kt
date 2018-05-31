@@ -94,6 +94,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 pdf.arguments = bundle
                 runOnUiThread {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container, pdf).addToBackStack(null).commit()
+                    fab.setOnClickListener {
+                        val frag = ProblemSubmitFragment()
+                        val bundle = Bundle()
+                        bundle.putInt("pid", jsonBodyObject!!.getInt("problem_id"))
+                        frag.arguments = bundle
+                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, frag).addToBackStack(null).commit()
+                    }
                 }
             }
         }
