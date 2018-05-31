@@ -2,6 +2,7 @@ package cn.edu.nankai.onlinejudge.main
 
 import android.app.Activity
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,7 @@ class ProblemSubmitFragment : Fragment(), Callback {
         val v = inflater.inflate(R.layout.fragment_problem_submit, container, false)
         val argv = savedInstanceState ?: arguments
         mActivity = activity as Activity
+        mActivity.findViewById<FloatingActionButton>(R.id.fab).hide()
         if (argv != null) {
             mCode = v.findViewById(R.id.text_code)
             mPID = argv.getInt("pid")

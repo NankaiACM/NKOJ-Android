@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -94,6 +93,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 pdf.arguments = bundle
                 runOnUiThread {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container, pdf).addToBackStack(null).commit()
+                    fab.show()
                     fab.setOnClickListener {
                         val frag = ProblemSubmitFragment()
                         val bundle = Bundle()
@@ -124,10 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        fab.hide()
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -155,10 +152,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            supportFragmentManager.popBackStack()
-        } else if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
+        } else if (supportFragmentManager.backStackEntryCount > 1) {
+            fab.hide()
+            supportFragmentManager.popBackStack()
         } else {
             if (shouldFinishActivity)
                 super.onBackPressed()
@@ -212,6 +210,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        fab.hide()
         val fm = supportFragmentManager.beginTransaction()
         when (item.itemId) {
             R.id.nav_home -> {

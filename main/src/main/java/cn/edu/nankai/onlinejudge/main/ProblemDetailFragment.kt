@@ -2,6 +2,7 @@ package cn.edu.nankai.onlinejudge.main
 
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,8 @@ class ProblemDetailFragment : Fragment() {
         v.findViewById<TextView>(R.id.samp_input).text = sample_input
         v.findViewById<TextView>(R.id.samp_output).text = sample_output
         v.findViewById<TextView>(R.id.hint).text = hint
+
+        activity?.findViewById<FloatingActionButton>(R.id.fab)?.show()
 
         return v
     }
