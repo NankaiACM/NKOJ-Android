@@ -8,6 +8,7 @@
     <string name="nav_home">主页</string>
     <string name="nav_problem">题目</string>
     <string name="nav_contest">竞赛</string>
+    <string name="nav_status">评测状态</string>
     <string name="nav_discuss">讨论</string>
     <string name="nav_miscellaneous">杂项</string>
     <string name="nav_open_source">开放源代码许可</string>

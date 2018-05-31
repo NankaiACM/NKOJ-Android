@@ -17,6 +17,10 @@
             android:icon="@drawable/nav_contest"
             android:title="@string/nav_contest" />
         <item
+            android:id="@+id/nav_status"
+            android:icon="@drawable/nav_status"
+            android:title="@string/nav_status" />
+        <item
             android:id="@+id/nav_discuss"
             android:icon="@drawable/nav_discuss"
             android:title="@string/nav_discuss" />

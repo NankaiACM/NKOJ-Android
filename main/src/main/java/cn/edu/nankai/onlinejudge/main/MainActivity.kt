@@ -216,6 +216,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_contest -> {
                 fm.replace(R.id.fragment_container, ContestFragment())
             }
+            R.id.nav_status -> {
+                fm.replace(R.id.fragment_container, StatusFragment())
+            }
             R.id.nav_discuss -> {
                 fm.replace(R.id.fragment_container, DiscussFragment())
             }
