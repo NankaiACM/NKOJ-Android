@@ -4,6 +4,7 @@ package cn.edu.nankai.onlinejudge.main
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,13 +41,13 @@ class ProblemDetailFragment : Fragment() {
         val sample_output = content.optString("sample_output")
         val hint = content.optString("hint")
 
-        v.findViewById<TextView>(R.id.pid).text = pid.toString()
-        v.findViewById<TextView>(R.id.desc).text = description
-        v.findViewById<TextView>(R.id.desc_input).text = input
-        v.findViewById<TextView>(R.id.desc_output).text = output
-        v.findViewById<TextView>(R.id.samp_input).text = sample_input
-        v.findViewById<TextView>(R.id.samp_output).text = sample_output
-        v.findViewById<TextView>(R.id.hint).text = hint
+        v.findViewById<TextView>(R.id.pid).text = (pid.toString() + '.' + title.toString())
+        v.findViewById<TextView>(R.id.desc).text = Html.fromHtml(description)
+        v.findViewById<TextView>(R.id.desc_input).text = Html.fromHtml(input)
+        v.findViewById<TextView>(R.id.desc_output).text = Html.fromHtml(output)
+        v.findViewById<TextView>(R.id.samp_input).text = Html.fromHtml(sample_input)
+        v.findViewById<TextView>(R.id.samp_output).text = Html.fromHtml(sample_output)
+        v.findViewById<TextView>(R.id.hint).text = Html.fromHtml(hint)
 
         activity?.findViewById<FloatingActionButton>(R.id.fab)?.show()
 

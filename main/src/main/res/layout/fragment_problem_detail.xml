@@ -2,80 +2,211 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ProblemDetailFragment">
 
-    <TextView
-        android:id="@+id/pid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="题目编号(PH)"
-        android:textSize="25sp" />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_height="0px"
+            android:background="#ffffff"
+            android:padding="20dp">
+            <TextView
+                android:id="@+id/pid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="题目编号(PH)"
+                android:textSize="20sp"
+                android:textColor="#000000"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="8dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="题目描述"
+                            android:textSize="18sp"
+                            android:textColor="#000000"/>
+                    </LinearLayout>
 
-    <TextView
-        android:id="@+id/desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="题目描述(PH)" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输入描述"
-        android:textSize="25sp" />
+                    <TextView
+                        android:id="@+id/desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="题目描述(PH)" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="8dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="输入描述"
+                            android:textSize="18sp"
+                            android:textColor="#000000"/>
+                    </LinearLayout>
 
-    <TextView
-        android:id="@+id/desc_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输入描述(PH)" />
+                    <TextView
+                        android:id="@+id/desc_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="输入描述(PH)" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输出描述"
-        android:textSize="25sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="8dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="输出描述"
+                            android:textSize="18sp"
+                            android:textColor="#000000"/>
+                    </LinearLayout>
 
-    <TextView
-        android:id="@+id/desc_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输出描述(PH)" />
+                    <TextView
+                        android:id="@+id/desc_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="输出描述(PH)" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输入样例"
-        android:textSize="25sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="8dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorPrimary"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="提示"
+                            android:textSize="18sp"
+                            android:textColor="#000000"/>
+                    </LinearLayout>
 
-    <TextView
-        android:id="@+id/samp_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输入样例(PH)" />
+                    <TextView
+                        android:id="@+id/hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="提示(PH)" />
+                </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输出样例"
-        android:textSize="25sp" />
+            </ScrollView>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/samp_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输出样例(PH)" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="18sp"
+                    android:background="@drawable/side_nav_bar"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="输入样例"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/samp_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="输入样例(PH)" />
+            </ScrollView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="提示"
-        android:textSize="25sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="18sp"
+                    android:background="@drawable/side_nav_bar"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="输出样例"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/samp_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="输出样例(PH)" />
+            </ScrollView>
 
-    <TextView
-        android:id="@+id/hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="提示(PH)" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

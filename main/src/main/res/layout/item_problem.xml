@@ -3,52 +3,118 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/problem_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="题目名称"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="26sp"
+                android:layout_height="26sp"
+                android:background="@drawable/success"
+                android:textSize="20sp"
+                android:id="@+id/imageView2" />
 
-    <TextView
-        android:id="@+id/time_limit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="题目时限"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/problem_name" />
+            <TextView
+                android:id="@+id/problem_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/imageView2"
+                android:textColor="#000000"
+                android:text="题目名称"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/memory_limit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="题目内存"
-        app:layout_constraintBottom_toBottomOf="@+id/time_limit"
-        app:layout_constraintStart_toEndOf="@+id/time_limit" />
+            <TextView
+                android:id="@+id/problem_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="题目编号"
+                app:layout_constraintBottom_toBottomOf="@+id/problem_name"
+                app:layout_constraintStart_toEndOf="@+id/problem_name" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:background="@drawable/taskmanagement"/>
+                <TextView
+                    android:id="@+id/time_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="5dp"
+                    android:text="题目时限"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/problem_name" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+                <TextView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:background="@drawable/store"/>
+                <TextView
+                    android:id="@+id/memory_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"
+                    android:text="题目内存"
+                    app:layout_constraintBottom_toBottomOf="@+id/time_limit"
+                    app:layout_constraintStart_toEndOf="@+id/time_limit" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/extra_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="额外信息"
-        app:layout_constraintBottom_toBottomOf="@+id/memory_limit"
-        app:layout_constraintStart_toEndOf="@+id/memory_limit" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:background="@drawable/office"/>
+                <TextView
+                    android:id="@+id/extra_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="额外信息"
 
-    <TextView
-        android:id="@+id/problem_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="题目编号"
-        app:layout_constraintBottom_toBottomOf="@+id/problem_name"
-        app:layout_constraintStart_toEndOf="@+id/problem_name" />
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/memory_limit"
+                    app:layout_constraintStart_toEndOf="@+id/memory_limit" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
+
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
