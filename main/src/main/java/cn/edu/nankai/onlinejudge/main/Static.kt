@@ -19,6 +19,7 @@ class Static {
         const val URL_LIST_PROBLEM = "/api/problems/list"
         const val URL_PROBLEM_DETAIL = "/api/problem"
         const val URL_LIST_STATUS = "/api/status"
+        const val URL_STATUS_DETAIL = "/api/status/detail"
         const val URL_SUBMIT_CODE = "/api/judge"
 
         fun getUrl(target: String, array: Array<String>? = null): String {

@@ -103,6 +103,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
             }
+            HTTPREQ_STATUS_DETAIL -> {
+                val sdf = StatusDetailFragment()
+                val bundle = Bundle()
+                bundle.putString("status", jsonBodyObject?.toString())
+                sdf.arguments = bundle
+                runOnUiThread {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, sdf).addToBackStack(null).commit()
+                }
+            }
         }
     }
 
@@ -250,5 +259,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val HTTPREQ_USER_AVATAR = "UserAvatar"
 
         const val HTTPREQ_PROBLEM_DETAIL = "ProblemDetail"
+        const val HTTPREQ_STATUS_DETAIL = "StatusDetail"
     }
 }
