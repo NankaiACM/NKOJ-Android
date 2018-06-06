@@ -112,6 +112,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container, sdf).addToBackStack(null).commit()
                 }
             }
+            HTTPREQ_CODE_FRAGMENT -> {
+                val cf = CodeFragment()
+                val bundle = Bundle()
+                bundle.putString("code", jsonBodyObject?.optString("code").toString())
+                cf.arguments = bundle
+                runOnUiThread {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, cf).addToBackStack(null).commit()
+                }
+            }
         }
     }
 
@@ -260,5 +269,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         const val HTTPREQ_PROBLEM_DETAIL = "ProblemDetail"
         const val HTTPREQ_STATUS_DETAIL = "StatusDetail"
+        const val HTTPREQ_CODE_FRAGMENT = "GetCode"
     }
 }

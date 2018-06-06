@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.yydcdut.sdlv.MenuItem;
 import com.yydcdut.sdlv.SlideAndDragListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,32 +47,74 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
     }
 
 
+    private BaseAdapter mAdapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return 8;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mAppList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return mAppList.get(position).hashCode();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position % 3;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 3;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            CustomViewHolder cvh;
+            if (convertView == null) {
+                cvh = new CustomViewHolder();
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_custom_btn, null);
+                cvh.txtName = (TextView) convertView.findViewById(R.id.txt_item_edit);
+                convertView.setTag(cvh);
+            } else {
+                cvh = (CustomViewHolder) convertView.getTag();
+            }
+            ApplicationInfo item = (ApplicationInfo) this.getItem(position);
+            cvh.txtName.setText(code.get(position % code.size()));
+
+            /*if (getItemViewType(position) == 2) {
+                cvh.txtName.setText("No Menu");
+            } else if (getItemViewType(position) == 0) {
+                cvh.txtName.setText("right");
+            } else {
+                cvh.txtName.setText("left");
+            }*/
+            return convertView;
+        }
+
+        class CustomViewHolder {
+            public TextView txtName;
+        }
+    };
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_code, container, false);
-        initData();
+        assert getArguments() != null;
+        String data = getArguments().getString("code");
+        initData(data);
         initMenu();
         initUiAndListener();
         mToast = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
         mToast.show();
         return view;
-    }
-
-    public void initData(){
-        code.add("#include<iostream>");
-        code.add("using namespace std;");
-        code.add("int main(){");
-        code.add("int a, b;");
-        code.add("cin>>a>>b;");
-        code.add("cout<<a+b<<endl;");
-        code.add("return 0;");
-        code.add("}");
-        mAppList = new ArrayList<ApplicationInfo>(100);
-        int temp = 99;
-        while(temp-- != 0) mAppList.add(new ApplicationInfo());
-        //mAppList = getActivity().getPackageManager().getInstalledApplications(0);
     }
 
     public void initMenu() {
@@ -111,60 +155,14 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
         mListView.setDividerHeight(1);
     }
 
-    private BaseAdapter mAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return 8;
-        }
+    public void initData(String args) {
 
-        @Override
-        public Object getItem(int position) {
-            return mAppList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return mAppList.get(position).hashCode();
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position % 3;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 3;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            CustomViewHolder cvh;
-            if (convertView == null) {
-                cvh = new CustomViewHolder();
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_custom_btn, null);
-                cvh.txtName = (TextView) convertView.findViewById(R.id.txt_item_edit);
-                convertView.setTag(cvh);
-            } else {
-                cvh = (CustomViewHolder) convertView.getTag();
-            }
-            ApplicationInfo item = (ApplicationInfo) this.getItem(position);
-            cvh.txtName.setText(code.get(position % 8));
-
-            /*if (getItemViewType(position) == 2) {
-                cvh.txtName.setText("No Menu");
-            } else if (getItemViewType(position) == 0) {
-                cvh.txtName.setText("right");
-            } else {
-                cvh.txtName.setText("left");
-            }*/
-            return convertView;
-        }
-
-        class CustomViewHolder {
-            public TextView txtName;
-        }
-    };
+        code.addAll(Arrays.asList(args.split("\n")));
+        mAppList = new ArrayList<ApplicationInfo>(100);
+        int temp = 99;
+        while (temp-- != 0) mAppList.add(new ApplicationInfo());
+        //mAppList = getActivity().getPackageManager().getInstalledApplications(0);
+    }
 
     @Override
     public void onDragViewStart(int beginPosition) {

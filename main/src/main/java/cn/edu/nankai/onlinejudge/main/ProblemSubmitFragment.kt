@@ -1,6 +1,5 @@
 package cn.edu.nankai.onlinejudge.main
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import cn.edu.nankai.onlinejudge.main.MainActivity.Companion.HTTPREQ_CODE_FRAGMENT
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -44,25 +44,30 @@ class ProblemSubmitFragment : Fragment(), Callback {
     }
 
     var mPID = 0
-    lateinit var mActivity: Activity
+    lateinit var mActivity: MainActivity
     lateinit var mCode: TextView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val v = inflater.inflate(R.layout.fragment_problem_submit, container, false)
         val argv = savedInstanceState ?: arguments
-        mActivity = activity as Activity
+        mActivity = activity as MainActivity
         mActivity.findViewById<FloatingActionButton>(R.id.fab).hide()
         if (argv != null) {
             mCode = v.findViewById(R.id.text_code)
             mPID = argv.getInt("pid")
             v.findViewById<TextView>(R.id.text_pid).text = mPID.toString()
             v.findViewById<Button>(R.id.btn_submit).setOnClickListener {
-                Network.getInstance(activity?.applicationContext).newCall(
+                Network.getInstance(mActivity.applicationContext).newCall(
                         Request.Builder().url(Static.getAPIUrl(Static.URL_SUBMIT_CODE)).post(
                                 FormBody.Builder().add("pid", mPID.toString()).add("lang", "1").add("code", mCode.text.toString()).build()
                         ).tag(HTTPREQ_SUBMIT_CODE).build()
                 ).enqueue(this)
+            }
+            v.findViewById<TextView>(R.id.dragSubmit).setOnClickListener {
+                Network.getInstance(mActivity.applicationContext).newCall(
+                        Request.Builder().url(Static.getAPIUrl(Static.URL_GET_CODE, arrayOf(mPID.toString()))).tag(HTTPREQ_CODE_FRAGMENT).build()
+                ).enqueue(mActivity)
             }
         }
         return v

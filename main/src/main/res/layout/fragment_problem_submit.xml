@@ -57,12 +57,27 @@
         android:padding="10dp"
        >
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Code"
             android:layout_gravity="center"
-            android:textColor="#000000"/>
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="输入代码 或 "
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/dragSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="通过拖动提交..."
+                android:textColor="#0022FF" />
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
