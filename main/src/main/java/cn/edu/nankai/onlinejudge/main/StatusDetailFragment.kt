@@ -4,6 +4,8 @@ package cn.edu.nankai.onlinejudge.main
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,13 +37,11 @@ class StatusDetailFragment : Fragment() {
         v.findViewById<TextView>(R.id.sta_id).text = "$sid --> $pid"
         v.findViewById<TextView>(R.id.sta_result).text = "$msg_cn ($msg_en)"
         v.findViewById<TextView>(R.id.sta_time_memory_codesize).text = "Time: $time ms, Memory: $memory kb, Code: $code_size bytes"
-
+        Log.e("debug", code)
         v.findViewById<TextView>(R.id.sta_compile_info).text = compile_info
-        v.findViewById<TextView>(R.id.sta_compile_info).setHorizontallyScrolling(true)
         v.findViewById<TextView>(R.id.sta_compile_info).isSelected = true
 
-        v.findViewById<TextView>(R.id.sta_code).text = code
-        v.findViewById<TextView>(R.id.sta_code).setHorizontallyScrolling(true)
+        v.findViewById<TextView>(R.id.sta_code).text = Html.fromHtml("<p>" + code + "</p>")
         v.findViewById<TextView>(R.id.sta_code).isSelected = true
         return v
     }

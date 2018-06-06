@@ -22,11 +22,13 @@ android {
 
 dependencies {
     implementation project(':base')
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'com.caverock:androidsvg:1.2.1'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:3.10.0"
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.squareup.okio:okio:1.14.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    compile 'com.yydcdut:sdlv:0.7.2'
 }

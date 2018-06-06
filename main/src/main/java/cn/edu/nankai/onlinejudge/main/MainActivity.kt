@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fm = supportFragmentManager.beginTransaction()
         when (item.itemId) {
             R.id.nav_home -> {
-                fm.replace(R.id.fragment_container, HomeFragment())
+                fm.replace(R.id.fragment_container, CodeFragment())
             }
             R.id.nav_problem -> {
                 fm.replace(R.id.fragment_container, ProblemFragment())

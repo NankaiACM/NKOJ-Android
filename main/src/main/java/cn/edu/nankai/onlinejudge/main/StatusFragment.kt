@@ -16,6 +16,7 @@ import android.widget.Toast
 import cn.edu.nankai.onlinejudge.main.MainActivity.Companion.HTTPREQ_STATUS_DETAIL
 import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_LIST_STATUS
 import cn.edu.nankai.onlinejudge.main.Static.Companion.URL_STATUS_DETAIL
+import cn.edu.nankai.onlinejudge.main.Static.Companion.getAPIUrl
 import cn.edu.nankai.onlinejudge.main.Static.Companion.getUrl
 import kotlinx.android.synthetic.main.fragment_status.*
 import okhttp3.*
@@ -173,7 +174,7 @@ class StatusFragment : Fragment(), Callback {
             override fun onClick(v: View?) {
                 val pid = v?.tag as String
                 mNetwork.newCall(
-                        Request.Builder().url(getUrl(URL_STATUS_DETAIL, arrayOf(pid))).tag(HTTPREQ_STATUS_DETAIL).build()
+                        Request.Builder().url(getAPIUrl(URL_STATUS_DETAIL, arrayOf(pid))).tag(HTTPREQ_STATUS_DETAIL).build()
                 ).enqueue(mActivity)
             }
         }
