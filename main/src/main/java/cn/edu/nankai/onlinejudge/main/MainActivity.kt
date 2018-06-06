@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fab.setOnClickListener {
                         val frag = ProblemSubmitFragment()
                         val bundle = Bundle()
+                        a_magic_var_global_no_more_code_just_for_simple_pid = jsonBodyObject!!.getInt("problem_id").toString()
                         bundle.putInt("pid", jsonBodyObject!!.getInt("problem_id"))
                         frag.arguments = bundle
                         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, frag).addToBackStack(null).commit()
@@ -116,6 +117,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val cf = CodeFragment()
                 val bundle = Bundle()
                 bundle.putString("code", jsonBodyObject?.optString("code").toString())
+                bundle.putString("pid", a_magic_var_global_no_more_code_just_for_simple_pid)
                 cf.arguments = bundle
                 runOnUiThread {
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container, cf).addToBackStack(null).commit()
@@ -135,6 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var isLoggedIn = false
     private var shouldFinishActivity = false
+    private var a_magic_var_global_no_more_code_just_for_simple_pid = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

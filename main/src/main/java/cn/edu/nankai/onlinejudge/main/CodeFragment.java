@@ -4,6 +4,7 @@ package cn.edu.nankai.onlinejudge.main;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +24,14 @@ import com.yydcdut.sdlv.SlideAndDragListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.Request;
+
+import static cn.edu.nankai.onlinejudge.main.ProblemSubmitFragment.HTTPREQ_SUBMIT_CODE;
 
 
 /**
@@ -41,16 +50,20 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
     private ApplicationInfo mDraggedEntity;
     private ArrayList<String> code = new ArrayList<>();
     private View view;
-
-    public CodeFragment() {
-        // Required empty public constructor
+    private String pid;
+    public String getAllCode(){
+        StringBuilder str = new StringBuilder();
+        for(int i = 0; i < code.size(); i++){
+            str.append(code.get(i));
+            str.append('\n');
+        }
+        return str.toString();
     }
-
 
     private BaseAdapter mAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
-            return 8;
+            return code.size();
         }
 
         @Override
@@ -109,6 +122,14 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
         view =  inflater.inflate(R.layout.fragment_code, container, false);
         assert getArguments() != null;
         String data = getArguments().getString("code");
+        pid = getArguments().getString("pid");
+        Button button = view.findViewById(R.id.magic_submit_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ProblemSubmitFragment().magicCall((MainActivity) getActivity(), pid, getAllCode());
+            }
+        });
         initData(data);
         initMenu();
         initUiAndListener();
@@ -121,20 +142,6 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
         mMenuList = new ArrayList<>();
         Menu menu0 = new Menu(true, 0);
         Menu menu1 = new Menu(false, 1);
-//        menu1.addItem(new MenuItem.Builder().setWidth(150)
-//                .setBackground(new ColorDrawable(Color.RED))
-//                .setText("ViewType 1")
-//                .setDirection(MenuItem.DIRECTION_LEFT)
-//                .setTextColor(Color.WHITE)
-//                .setTextSize(10)
-//                .build());
-//        menu1.addItem(new MenuItem.Builder().setWidth(150)
-//                .setBackground(new ColorDrawable(Color.GRAY))
-//                .setText("No Right")
-//                .setDirection(MenuItem.DIRECTION_LEFT)
-//                .setTextColor(Color.WHITE)
-//                .setTextSize(10)
-//                .build());
         Menu menu2 = new Menu(false, 2);
         mMenuList.add(menu0);
         mMenuList.add(menu1);
@@ -158,8 +165,9 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
     public void initData(String args) {
 
         code.addAll(Arrays.asList(args.split("\n")));
-        mAppList = new ArrayList<ApplicationInfo>(100);
-        int temp = 99;
+        Collections.shuffle(code);
+        mAppList = new ArrayList<ApplicationInfo>(code.size());
+        int temp = code.size();
         while (temp-- != 0) mAppList.add(new ApplicationInfo());
         //mAppList = getActivity().getPackageManager().getInstalledApplications(0);
     }
@@ -258,15 +266,11 @@ public class CodeFragment extends Fragment implements AdapterView.OnItemLongClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mToast.setText("onItemClick   position--->" + position);
-        mToast.show();
         Log.i(TAG, "onItemClick   " + position);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        mToast.setText("onItemLongClick   position--->" + position);
-        mToast.show();
         Log.i(TAG, "onItemLongClick   " + position);
         return false;
     }

@@ -9,8 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
 import android.widget.TextView
 import org.json.JSONObject
+import thereisnospon.codeview.CodeView
 
 class StatusDetailFragment : Fragment() {
 
@@ -41,8 +43,9 @@ class StatusDetailFragment : Fragment() {
         v.findViewById<TextView>(R.id.sta_compile_info).text = compile_info
         v.findViewById<TextView>(R.id.sta_compile_info).isSelected = true
 
-        v.findViewById<TextView>(R.id.sta_code).text = Html.fromHtml("<p>" + code + "</p>")
-        v.findViewById<TextView>(R.id.sta_code).isSelected = true
+        v.findViewById<CodeView>(R.id.sta_code).showCode(code)
+       // v.findViewById<CodeView>(R.id.sta_code).settings.textSize = WebSettings.TextSize.SMALLEST
+        //v.findViewById<TextView>(R.id.sta_code).isSelected = true
         return v
     }
 }

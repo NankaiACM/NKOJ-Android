@@ -4,14 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
-    <com.yydcdut.sdlv.SlideAndDragListView
-        android:id="@+id/slideanddraglistview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/black"
-        android:dividerHeight="0.5dip"
-        android:paddingLeft="8dip"
-        android:paddingRight="8dip">
-    </com.yydcdut.sdlv.SlideAndDragListView>
+    <TextView
+        >
+
+    </TextView>
 
 </FrameLayout>
