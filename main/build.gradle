@@ -31,4 +31,5 @@ dependencies {
     implementation 'com.squareup.okio:okio:1.14.1'
     implementation 'com.android.support:support-v4:27.1.1'
     compile 'com.yydcdut:sdlv:0.7.2'
+    compile 'thereisnospon.codeview:codeview:0.3.1'
 }
