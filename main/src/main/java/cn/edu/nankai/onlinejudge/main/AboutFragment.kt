@@ -18,10 +18,10 @@ class AboutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_about, container, false)
 
-        val mImageViewPager = view.findViewById(R.id.pager) as ViewPager
+        val mImageViewPager = view.findViewById<ViewPager>(R.id.pager) as ViewPager
         mImageViewPager.adapter = ScreenSlidePagerAdapter((activity as AppCompatActivity).supportFragmentManager)
 
-        val tabLayout = view.findViewById(R.id.tabDots) as TabLayout
+        val tabLayout = view.findViewById<ViewPager>(R.id.tabDots) as TabLayout
         tabLayout.setupWithViewPager(mImageViewPager, true)
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -55,7 +55,7 @@ class AboutFragment : Fragment() {
 
     private inner class ScreenSlidePagerAdapter(supportFragmentManager: FragmentManager) : FragmentStatePagerAdapter(supportFragmentManager) {
         override fun getItem(position: Int): android.support.v4.app.Fragment {
-            return if (position == 1) PageAboutFoxFragment() else BlankFragment()
+            return if (position == 1) PageAboutFoxFragment() else PageAboutSaurusFragment()
         }
 
         override fun getCount(): Int {

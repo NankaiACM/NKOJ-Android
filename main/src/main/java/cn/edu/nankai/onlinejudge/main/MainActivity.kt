@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Network.getInstance(applicationContext).newCall(
                     Request.Builder().url(Static.getAPIUrl(URL_USER_INFO)).tag(HTTPREQ_USER_INFO).build()).enqueue(this)
         }
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, BlankFragment()).addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).addToBackStack(null).commit()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

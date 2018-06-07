@@ -8,17 +8,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="提交"
-            android:id="@+id/magic_submit_btn"
-            />
-        <com.yydcdut.sdlv.SlideAndDragListView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lv_edit">
-        </com.yydcdut.sdlv.SlideAndDragListView>
+            android:padding="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:text="重新排列代码来AC题目吧！  ---->"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_button"
+                android:text="提交"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/magic_submit_btn"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+            <com.yydcdut.sdlv.SlideAndDragListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_edit">
+            </com.yydcdut.sdlv.SlideAndDragListView>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -20,12 +20,12 @@
         android:id="@+id/txt_item_edit"
         android:padding="5dp"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:textAlignment="textStart"
         android:lines="1"
         android:text="123"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

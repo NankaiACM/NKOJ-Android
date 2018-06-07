@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="30dp"
     tools:context=".LoginActivity">
 
     <ProgressBar
@@ -137,7 +137,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/action_send_ecode" />
+                    android:background="@drawable/custom_button_notfill"
+                    android:text="@string/action_send_ecode"
+                    android:textSize="10sp"
+                    android:textColor="#555"/>
 
             </LinearLayout>
 
@@ -148,6 +151,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
+                android:background="@drawable/custom_button"
+                android:textColor="#fff"
                 android:textStyle="bold" />
 
             <Button
@@ -157,6 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_log_in"
+                android:background="@drawable/custom_button"
                 android:textStyle="bold"
                 android:visibility="gone" />
 
@@ -167,7 +173,7 @@
                 android:layout_gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/prompt_login_switch"
-                android:textColor="#1122FF" />
+                android:textColor="#1296db" />
         </LinearLayout>
     </ScrollView>
 
